@@ -384,34 +384,78 @@ footer p {
   }
 }
 /* ==========================================================================
+   Mobile & Tablet Media Queries (Homepage)
+   ========================================================================== */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  header {
+    height: 70px;
+    padding: 0 1.5rem;
+  }
+  
+  body {
+    padding-top: 70px;
+  }
+
+  nav ul {
+    gap: 1.5rem;
+  }
+
+  .project-card, 
+  .project-card:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    direction: ltr;
+  }
+  
+  .project-card:nth-child(even) .project-info {
+    direction: ltr;
+  }
+
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  
+  .about-container h2 {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* ==========================================================================
    Project Detail Page Styles
    ========================================================================== */
 
-/* 1. Reset global section padding for the detail page only */
-.project-detail-container section {
-    padding: 0;
-    border-bottom: none;
+/* This targets the container directly and forces section margins/paddings to zero */
+main.project-detail-container,
+main.project-detail-container section {
+    padding: 0 !important;
+    margin-top: 0 !important;
+    border-bottom: none !important;
 }
 
-/* 2. Position the main container closer to the navigation bar */
+/* Base structural layout for the page content */
 .project-detail-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px 80px 20px; /* Kept tight to the top */
+    display: block;
 }
 
-/* 3. Control the exact gap between your text and the first image */
+/* Position text layout with tight margins */
 .project-intro {
-    margin-top: 20px;     /* Small buffer below nav */
-    margin-bottom: 40px;  /* Clean, intentional space before images start */
+    padding-top: 40px !important;
+    margin-bottom: 30px !important;
 }
 
-/* 4. Separate the stacked landscape images */
+/* Stack rules for images */
 .landscape-stack {
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    margin-bottom: 30px;
+    gap: 60px;
+    margin-bottom: 60px;
 }
 
 .landscape-stack img {
@@ -420,11 +464,11 @@ footer p {
     display: block;
 }
 
-/* 5. Control spacing inside the 4-tile grid */
+/* Grid layout rules */
 .tile-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    gap: 20px;
 }
 
 .tile-grid img {
@@ -433,21 +477,19 @@ footer p {
     display: block;
 }
 
-/* 6. Push the back button away from the bottom of your grid */
 .back-link-container {
-    margin-top: 80px;
+    margin-top: 60px;
+    padding-bottom: 60px;
     text-align: center;
 }
 
-/* Responsive drop to a single column on mobile screens */
+/* Clean mobile collapse for detail template elements */
 @media (max-width: 768px) {
     .tile-grid {
         grid-template-columns: 1fr;
     }
-    .project-detail-container {
-        padding-top: 20px;
-    }
     .project-intro {
-        margin-bottom: 30px;
+        padding-top: 20px !important;
+        margin-bottom: 20px !important;
     }
 }
