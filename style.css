@@ -387,24 +387,31 @@ footer p {
    Project Detail Page Styles
    ========================================================================== */
 
-/* Add vertical breathing room to the whole page */
+/* 1. Reset global section padding for the detail page only */
+.project-detail-container section {
+    padding: 0;
+    border-bottom: none;
+}
+
+/* 2. Position the main container closer to the navigation bar */
 .project-detail-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 140px 20px 100px 20px;
+    padding: 40px 20px 80px 20px; /* Kept tight to the top */
 }
 
-/* Create space between your top text and the first image */
+/* 3. Control the exact gap between your text and the first image */
 .project-intro {
-    margin-bottom: 80px;
+    margin-top: 20px;     /* Small buffer below nav */
+    margin-bottom: 40px;  /* Clean, intentional space before images start */
 }
 
-/* Separate the stacked landscape images */
+/* 4. Separate the stacked landscape images */
 .landscape-stack {
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    margin-bottom: 40px;
+    gap: 30px;
+    margin-bottom: 30px;
 }
 
 .landscape-stack img {
@@ -413,11 +420,11 @@ footer p {
     display: block;
 }
 
-/* Control spacing inside the 4-tile grid */
+/* 5. Control spacing inside the 4-tile grid */
 .tile-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
+    gap: 30px;
 }
 
 .tile-grid img {
@@ -426,9 +433,9 @@ footer p {
     display: block;
 }
 
-/* Push the back button away from the bottom of your grid */
+/* 6. Push the back button away from the bottom of your grid */
 .back-link-container {
-    margin-top: 100px;
+    margin-top: 80px;
     text-align: center;
 }
 
@@ -438,6 +445,9 @@ footer p {
         grid-template-columns: 1fr;
     }
     .project-detail-container {
-        padding-top: 100px;
+        padding-top: 20px;
+    }
+    .project-intro {
+        margin-bottom: 30px;
     }
 }
