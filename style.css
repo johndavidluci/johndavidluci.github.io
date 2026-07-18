@@ -383,3 +383,61 @@ footer p {
     margin-bottom: 1.5rem;
   }
 }
+/* ==========================================================================
+   Project Detail Page Styles
+   ========================================================================== */
+
+/* Add vertical breathing room to the whole page */
+.project-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 140px 20px 100px 20px;
+}
+
+/* Create space between your top text and the first image */
+.project-intro {
+    margin-bottom: 80px;
+}
+
+/* Separate the stacked landscape images */
+.landscape-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.landscape-stack img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Control spacing inside the 4-tile grid */
+.tile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+
+.tile-grid img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Push the back button away from the bottom of your grid */
+.back-link-container {
+    margin-top: 100px;
+    text-align: center;
+}
+
+/* Responsive drop to a single column on mobile screens */
+@media (max-width: 768px) {
+    .tile-grid {
+        grid-template-columns: 1fr;
+    }
+    .project-detail-container {
+        padding-top: 100px;
+    }
+}
