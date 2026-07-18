@@ -454,8 +454,8 @@ main.project-detail-container section {
 .landscape-stack {
     display: flex;
     flex-direction: column;
-    gap: 120px;
-    margin-bottom: 120px;
+    gap: 200px;
+    margin-bottom: 200px;
 }
 
 .landscape-stack img {
