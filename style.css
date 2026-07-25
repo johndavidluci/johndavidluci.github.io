@@ -13,6 +13,9 @@
   --gray-600: #555555;
   --gray-800: #222222;
 
+  /* A single restrained accent — used sparingly (hero kicker, focus rings) */
+  --accent: #9c4b2e;
+
   /* Typography & Layout Scales */
   --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --max-width: 1200px;
@@ -58,6 +61,30 @@ img {
   max-width: 100%;
   height: auto;
   transition: transform var(--transition);
+}
+
+/* ---- Accessibility: focus states & skip link ---- */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  background: var(--black);
+  color: var(--white);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  z-index: 1000;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
 }
 
 /* ---- Header & Navigation ---- */
@@ -133,6 +160,38 @@ nav a:hover::after {
   width: 100%;
 }
 
+/* Mobile nav toggle (hidden on desktop) */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--black);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
 /* ---- Global Structural Layout ---- */
 main {
   max-width: var(--max-width);
@@ -158,6 +217,32 @@ section h2 {
   margin-bottom: clamp(2rem, 5vw, 4rem);
 }
 
+/* ---- Scroll reveal (progressive enhancement — see script.js) ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* If JS fails to load, don't hide content forever */
+.no-js .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ---- Hero Section (Editorial Intro) ---- */
 #hero {
   min-height: calc(85vh - var(--nav-height));
@@ -170,6 +255,15 @@ section h2 {
   max-width: 850px;
 }
 
+.hero-kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
 .hero-content h1 {
   font-size: clamp(1.8rem, 4vw, 3.2rem);
   font-weight: 400;
@@ -178,7 +272,7 @@ section h2 {
   margin-bottom: 1.5rem;
 }
 
-.hero-content p {
+.hero-content .hero-lead {
   font-size: clamp(1rem, 1.5vw, 1.25rem);
   color: var(--gray-600);
   margin-bottom: 3rem;
@@ -229,6 +323,13 @@ section h2 {
   overflow: hidden;
   background-color: var(--gray-100);
   aspect-ratio: 16 / 10;
+}
+
+/* Bug fix: image now actually fills and crops to its container */
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .project-card:hover .project-image img {
@@ -300,6 +401,29 @@ section h2 {
   margin-bottom: 2rem;
 }
 
+/* ---- Skills Section ---- */
+.skills {
+  text-align: center;
+}
+
+.skills h2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-subtitle {
+  color: var(--gray-600);
+  margin-bottom: 2.5rem;
+}
+
+.skills-chart {
+  width: 100%;
+  max-width: 850px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 /* ---- Contact Section ---- */
 #contact p {
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
@@ -344,175 +468,137 @@ footer p {
   text-align: center;
 }
 
-/* ---- Mobile & Tablet Media Queries ---- */
-@media (max-width: 768px) {
-  html {
-    font-size: 15px;
-  }
-
-  header {
-    height: 70px;
-    padding: 0 1.5rem;
-  }
-  
-  body {
-    padding-top: 70px;
-  }
-
-  nav ul {
-    gap: 1.5rem;
-  }
-
-  .project-card, 
-  .project-card:nth-child(even) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    direction: ltr;
-  }
-  
-  .project-card:nth-child(even) .project-info {
-    direction: ltr;
-  }
-
-  .about-container {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-  
-  .about-container h2 {
-    margin-bottom: 1.5rem;
-  }
-}
-/* ==========================================================================
-   Mobile & Tablet Media Queries (Homepage)
-   ========================================================================== */
-@media (max-width: 768px) {
-  html {
-    font-size: 15px;
-  }
-
-  header {
-    height: 70px;
-    padding: 0 1.5rem;
-  }
-  
-  body {
-    padding-top: 70px;
-  }
-
-  nav ul {
-    gap: 1.5rem;
-  }
-
-  .project-card, 
-  .project-card:nth-child(even) {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    direction: ltr;
-  }
-  
-  .project-card:nth-child(even) .project-info {
-    direction: ltr;
-  }
-
-  .about-container {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-  
-  .about-container h2 {
-    margin-bottom: 1.5rem;
-  }
-}
-
 /* ==========================================================================
    Project Detail Page Styles
    ========================================================================== */
 
-/* This targets the container directly and forces section margins/paddings to zero */
 main.project-detail-container,
 main.project-detail-container section {
-    padding: 0 !important;
-    margin-top: 0 !important;
-    border-bottom: none !important;
+  padding: 0 !important;
+  margin-top: 0 !important;
+  border-bottom: none !important;
 }
 
-/* Base structural layout for the page content */
 .project-detail-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: block;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: block;
 }
 
-/* Position text layout with tight margins */
 .project-intro {
-    padding-top: 40px !important;
-    margin-bottom: 30px !important;
+  padding-top: 40px !important;
+  margin-bottom: 30px !important;
 }
 
-/* Stack rules for images */
 .landscape-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 140px;
-    margin-bottom: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 140px;
+  margin-bottom: 140px;
 }
 
 .landscape-stack img {
-    width: 100%;
-    height: auto;
-    display: block;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-/* Grid layout rules */
 .tile-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
 .tile-grid img {
-    width: 100%;
-    height: auto;
-    display: block;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .back-link-container {
-    margin-top: 60px;
-    padding-bottom: 60px;
-    text-align: center;
+  margin-top: 60px;
+  padding-bottom: 60px;
+  text-align: center;
 }
 
-/* Clean mobile collapse for detail template elements */
+/* ==========================================================================
+   Mobile & Tablet Media Queries (single consolidated block)
+   ========================================================================== */
 @media (max-width: 768px) {
-    .tile-grid {
-        grid-template-columns: 1fr;
-    }
-    .project-intro {
-        padding-top: 20px !important;
-        margin-bottom: 20px !important;
-    }
-}
-.skills{
-    padding:100px 10%;
-    background:#fff;
-    text-align:center;
-}
+  html {
+    font-size: 15px;
+  }
 
-.skills h2{
-    font-size:2rem;
-    margin-bottom:10px;
-}
+  header {
+    height: 70px;
+    padding: 0 1.5rem;
+  }
 
-.section-subtitle{
-    color:#666;
-    margin-bottom:40px;
-}
+  body {
+    padding-top: 70px;
+  }
 
-.skills-chart{
-    width:100%;
-    max-width:850px;
-    height:auto;
-    display:block;
-    margin:auto;
+  .nav-toggle {
+    display: flex;
+  }
+
+  nav#primaryNav {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  nav#primaryNav.is-open {
+    max-height: 300px;
+  }
+
+  nav#primaryNav ul {
+    flex-direction: column;
+    gap: 0;
+    padding: 0.5rem 1.5rem 1.5rem;
+  }
+
+  nav#primaryNav ul li {
+    border-top: 1px solid var(--gray-100);
+  }
+
+  nav#primaryNav ul li a {
+    display: block;
+    padding: 1rem 0;
+  }
+
+  .project-card,
+  .project-card:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    direction: ltr;
+  }
+
+  .project-card:nth-child(even) .project-info {
+    direction: ltr;
+  }
+
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .about-container h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .tile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-intro {
+    padding-top: 20px !important;
+    margin-bottom: 20px !important;
+  }
 }
